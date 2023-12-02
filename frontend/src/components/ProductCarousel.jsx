@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Carousel } from 'react-bootstrap';
+import { Carousel, Image } from 'react-bootstrap';
 import Message from './Message';
 import { useGetTopProductsQuery } from '../slices/productsApiSlice';
 
@@ -16,8 +16,8 @@ const ProductCarousel = () => {
           <div 
           style={{ 
             height: '400px',
-            background: `url(${product.image})`,
-            backgroundSize: 'cover',
+            backgroundImage: `url(${product.image})`,
+            backgroundSize: 'contain',
             backgroundPosition: 'center',
           }}
         ></div>

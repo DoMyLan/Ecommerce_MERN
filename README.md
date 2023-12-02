@@ -1,6 +1,4 @@
-# Project Ecommece shop flower 
-
-
+# Project Ecommece shop flower
 
 Design database : https://dbdiagram.io/d/Ecommerce-653c890affbf5169f09f62b8
 
