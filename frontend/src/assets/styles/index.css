@@ -105,3 +105,45 @@ table th {
 .carousel-indicators .active {
   background-color: #455360; /* Active dot color */
 }
+
+/* CSS cho thẻ a với lớp filter-brand */
+.filter-brand {
+  display: inline-flex; /* Sử dụng flexbox */
+  align-items: center; /* Canh giữa theo chiều dọc */
+  justify-content: center; /* Canh giữa theo chiều ngang */
+  border-radius: 52px;
+  overflow: hidden;
+  transition: border-color 0.3s; /* Chỉ áp dụng hiệu ứng chuyển động cho border-color */
+  border: 1px solid transparent; /* Đặt độ dày và màu viền mặc định */
+  padding: 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.filter-brand img {
+  width: 100px;
+  height: 25px;
+}
+
+/* CSS khi hover vào thẻ a */
+.filter-brand:hover {
+  border-color: #007bff; /* Đổi màu viền khi hover */
+}
+
+.filter-category {
+  display: inline-flex; /* Sử dụng flexbox */
+  align-items: center; /* Canh giữa theo chiều dọc */
+  justify-content: center; /* Canh giữa theo chiều ngang */
+  border-radius: 52px;
+  text-decoration: none !important;
+  overflow: hidden;
+  transition: border-color 0.3s; /* Chỉ áp dụng hiệu ứng chuyển động cho border-color */
+  border: 1px solid transparent; /* Đặt độ dày và màu viền mặc định */
+  padding: 10px;
+  margin-right: 5px;
+}
+
+.filter-category:hover {
+  border-color: #007bff; /* Đổi màu viền khi hover */
+}
+
