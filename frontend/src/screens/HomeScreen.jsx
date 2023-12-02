@@ -4,6 +4,8 @@ import { useGetProductsQuery } from '../slices/productsApiSlice';
 import { Link } from 'react-router-dom';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
+import BrandFilter from '../components/BrandFilter';
+import CategoryFilter from '../components/CategoryFilter';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
@@ -36,6 +38,8 @@ const HomeScreen = () => {
         <>
           <Meta />
           <h1>Latest Products</h1>
+          <BrandFilter />
+          <CategoryFilter />
           <Row>
             {data.products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
