@@ -57,6 +57,7 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
   const pageSize = process.env.PAGINATION_LIMIT || 8;
   const page = Number(req.query.pageNumber) || 1;
 
+
   const count = await Product.countDocuments({ category: req.params.categoryName});
   const products = await Product.find({ category: req.params.categoryName})
     .limit(pageSize)

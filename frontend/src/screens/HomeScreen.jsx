@@ -1,24 +1,34 @@
 import { Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { useGetProductsQuery,useGetProductsByCategoryQuery,useGetCategoriesQuery} from '../slices/productsApiSlice';
 import { Link } from 'react-router-dom';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
-import BrandFilter from '../components/BrandFilter';
-import CategoryFilter from '../components/CategoryFilter';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
+import Category from '../components/Category';
 
 const HomeScreen = () => {
-  const { pageNumber, keyword } = useParams();
+  const { pageNumber, keyword, categoryName} = useParams();
 
-  const { data, isLoading, error } = useGetProductsQuery({
+  const productsQuery = useGetProductsQuery({
     keyword,
     pageNumber,
   });
 
+  const categoriesQuery = useGetProductsByCategoryQuery({
+    pageNumber,
+    categoryName,
+  });
+
+  const queryResult = !categoryName ? productsQuery : categoriesQuery;
+
+  const { data, isLoading, error } = queryResult;
+
+
+  const {data:categories} = useGetCategoriesQuery();
   return (
     <>
       {!keyword ? (
@@ -28,18 +38,20 @@ const HomeScreen = () => {
           Go Back
         </Link>
       )}
+      {
+      categories && !keyword ? (<Category categories={categories}/>) :(console.log("no"))
+      }
       {isLoading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>
           {error?.data?.message || error.error}
         </Message>
-      ) : (
+      ) 
+      :(
         <>
-          <Meta />
+          <Meta/>
           <h1>Latest Products</h1>
-          <BrandFilter />
-          <CategoryFilter />
           <Row>
             {data.products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

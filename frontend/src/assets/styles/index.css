@@ -105,45 +105,33 @@ table th {
 .carousel-indicators .active {
   background-color: #455360; /* Active dot color */
 }
-
-/* CSS cho thẻ a với lớp filter-brand */
-.filter-brand {
-  display: inline-flex; /* Sử dụng flexbox */
-  align-items: center; /* Canh giữa theo chiều dọc */
-  justify-content: center; /* Canh giữa theo chiều ngang */
-  border-radius: 52px;
-  overflow: hidden;
-  transition: border-color 0.3s; /* Chỉ áp dụng hiệu ứng chuyển động cho border-color */
-  border: 1px solid transparent; /* Đặt độ dày và màu viền mặc định */
-  padding: 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+/* CategoryList.css */
+.category-list-container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  margin-bottom: 40px;
 }
 
-.filter-brand img {
-  width: 100px;
-  height: 25px;
+.category-items {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-/* CSS khi hover vào thẻ a */
-.filter-brand:hover {
-  border-color: #007bff; /* Đổi màu viền khi hover */
+.category-item {
+  margin: 8px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
-.filter-category {
-  display: inline-flex; /* Sử dụng flexbox */
-  align-items: center; /* Canh giữa theo chiều dọc */
-  justify-content: center; /* Canh giữa theo chiều ngang */
-  border-radius: 52px;
-  text-decoration: none !important;
-  overflow: hidden;
-  transition: border-color 0.3s; /* Chỉ áp dụng hiệu ứng chuyển động cho border-color */
-  border: 1px solid transparent; /* Đặt độ dày và màu viền mặc định */
-  padding: 10px;
-  margin-right: 5px;
+.category-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
 }
 
-.filter-category:hover {
-  border-color: #007bff; /* Đổi màu viền khi hover */
+.category-item:hover, .category-item:hover a{
+  background-color: black;
+  color: #fff;
 }
-
