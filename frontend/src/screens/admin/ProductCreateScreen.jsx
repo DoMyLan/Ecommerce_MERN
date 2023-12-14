@@ -16,6 +16,16 @@ const ProductCreateScreen = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
+  //validate product name
+  const validateProductName = (name) => {
+    const regex = /^[a-zA-Z0-9]+$/;
+    return regex.test(name);
+  };
+  
+  // Validate price
+  const validatePriceAndQuantity = (price, countInStock) => {
+    return price >= 0 && countInStock > 0 && countInStock <= 999;
+  };
   const [createProduct, { isLoading: loadingUpdate }] = useCreateProductMutation();
 
   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
@@ -25,21 +35,40 @@ const ProductCreateScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    const { target } = e;
+    const value = target.value;
+    const field = target.name;
+    switch (field) {
+      case 'price':
+        setPrice(value);
+        break;
+      case 'countInStock':
+        setCountInStock(value);
+        break;
+      case 'name':
+        setCountInStock(value);
+        break;
+    }
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
-        await createProduct({
-          name,
-          price,
-          user,
-          image,
-          brand,
-          category,
-          description,
-          countInStock,
-        }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
-        toast.success('Product created');
-        navigate('/admin/productlist');
+        if (!validatePriceAndQuantity(price, countInStock)) {
+          toast.error("You can't create product with price or count < 0. \nPlease check again.");
+        } else if (!validateProductName(name)){
+          toast.error("Product name must only contain letters and numbers.");
+        } else {
+          await createProduct({
+            name,
+            price,
+            user,
+            image,
+            brand,
+            category,
+            description,
+            countInStock,
+          }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+          toast.success('Product created');
+          navigate('/admin/productlist');
+        }
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }

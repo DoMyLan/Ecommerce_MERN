@@ -28,6 +28,11 @@ const ProductEditScreen = () => {
     refetch,
     error,
   } = useGetProductDetailsQuery(productId);
+  
+  // Validate price
+  const validatePriceAndQuantity = (price, countInStock) => {
+    return price >= 0 && countInStock > 0 && countInStock <= 999;
+  };
 
   const [updateProduct, { isLoading: loadingUpdate }] =  useUpdateProductMutation();
 
@@ -37,20 +42,35 @@ const ProductEditScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const { target } = e;
+    const value = target.value;
+    const field = target.name;
+    switch (field) {
+      case 'price':
+        setPrice(value);
+        break;
+      case 'countInStock':
+        setCountInStock(value);
+        break;
+    }
     try {
-      await updateProduct({
-        productId,
-        name,
-        price,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
-      toast.success('Product updated');
-      refetch();
-      navigate('/admin/productlist');
+      if (!validatePriceAndQuantity(price, countInStock)) {
+        toast.error("You can't create product with price or count < 0. \nPlease check again.");
+      } else {
+        await updateProduct({
+          productId,
+          name,
+          price,
+          image,
+          brand,
+          category,
+          description,
+          countInStock,
+        }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+        toast.success('Product updated');
+        refetch();
+        navigate('/admin/productlist');
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
