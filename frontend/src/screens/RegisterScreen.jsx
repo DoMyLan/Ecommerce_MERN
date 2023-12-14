@@ -26,6 +26,23 @@ const RegisterScreen = () => {
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
 
+  //validate password
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+-]).{8,}$/;
+    return regex.test(password);
+  };
+  //Validate email
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+
+  //Validate name
+  const validateName = (name) => {
+    const regex = /^[a-zA-ZÀ-ỹ ]+$/;
+    return regex.test(name);
+  };
+
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
@@ -34,8 +51,27 @@ const RegisterScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
+    const { target } = e;
+    const value = target.value;
+    const field = target.name;
+    switch (field) {
+      case 'name':
+        setName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+    }
+    if (!validatePassword(password)) {
+      toast.error('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
+    } else if(!validateName(name)){
+      toast.error('Name must only contain letters and spaces.');
+    } else if(!validateEmail(email)){
+      toast.error('Email is not valid.');
+    } else if (password !== confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {

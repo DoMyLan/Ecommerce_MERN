@@ -24,6 +24,12 @@ const LoginScreen = () => {
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
 
+  //Validate email
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
@@ -32,10 +38,16 @@ const LoginScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setEmail(e.target.value);
     try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate(redirect);
+      if(!validateEmail(email)){
+        toast.error('Email is not valid.');
+      } else{
+        const res = await login({ email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        toast.success("You have successfully logged in!")
+        navigate(redirect);
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }

@@ -17,6 +17,18 @@ const UserEditScreen = () => {
   const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
+  //Validate email
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+
+  //Validate name
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z ]+$/;
+    return regex.test(name);
+  };
+
   const {
     data: user,
     isLoading,
@@ -30,11 +42,28 @@ const UserEditScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const { target } = e;
+    const value = target.value;
+    const field = target.name;
+    switch (field) {
+      case 'name':
+        setName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+    }
     try {
-      await updateUser({ userId, name, email, isAdmin });
-      toast.success('user updated successfully');
-      refetch();
-      navigate('/admin/userlist');
+      if (!validateEmail(email)) {
+        toast.error('Email is not valid.');
+      } else if(!validateName(name)){
+        toast.error('Name must only contain letters.');
+      }else {
+        await updateUser({ userId, name, email, isAdmin });
+        toast.success('user updated successfully');
+        refetch();
+        navigate('/admin/userlist');
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
